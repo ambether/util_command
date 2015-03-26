@@ -1,0 +1,11 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# Run-Script batch
+runScript.bat
+
+# Logfile
+um.L
+# Error log
+err.log
