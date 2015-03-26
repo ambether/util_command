@@ -1,11 +1,11 @@
 from cmd import Cmd
-from ..Nav.Directory_Listing import DirectoryLister as D
 from subprocess import Popen, PIPE
+from ..Nav import Nav_Menu
+from ..Nav.Directory_Listing import DirectoryLister as D
 from ..General.TakeAndVerifyInput import CheckPyFile as verifyPy
 from ..General.TakeAndVerifyInput import FileExists
 from ..General.Catch_Err import CatchErr
 from ..Zip.PackageInZip import Zipper
-from ..Nav import Nav_Menu
 import time
 import os
 
@@ -45,7 +45,7 @@ class IncludeDiagCmd(Cmd):
     '''
  
     def do_readlog(self, log=''):
-        '    Reads what is set to the current logfile unless another filename is specified as an arg.\n    Note: large lines may cause ugly formatting in console.\n    Format: readlog (<logfile>)'
+        '    Read what is set to the current logfile unless another filename is specified as an arg.\n    Note: large lines may cause ugly formatting in console.\n    Format: readlog (<logfile>)'
         #If no filename argument was given, use the class's default logfile.
         if log is '':
             log = self.logfile
@@ -64,7 +64,7 @@ class IncludeDiagCmd(Cmd):
             print('That file does not exist.')
         
     def do_formatlog(self, log=''):
-        '    Deletes the contents of the logfile. If no logfile exists, creates a logfile.\n    Format: formatlog (<logfile>)'
+        '    Delete the contents of the logfile. If no logfile exists, create a logfile.\n    Format: formatlog (<logfile>)'
         #If no filename argument was given, use the class's default logfile.
         if log is '':
             log = self.logfile
@@ -104,7 +104,7 @@ class IncludeDiagCmd(Cmd):
             print('\nLog file was created.\n')
                     
     def do_exec(self, args):
-        '    Executes a python script inside of a subprocess.\n    Writes the results to the current logfile.\n    Format: exec <scriptname> ([args])'
+        '    Execute a python script inside of a subprocess.\n    Writes the results to the current logfile.\n    Format: exec <scriptname> ([args])'
         #'FF' is the arg 'From File'. This arg retrieves the scriptname / args from file.
         #This should execute as long as the first two non-space characters are 'ff'. 
         if args[:2].strip().lower() == 'ff':
@@ -245,6 +245,7 @@ class IncludeNavCmd(IncludeDiagCmd):
         self.base_directory = D.get_abs_curdir()
    
     def do_ls(self, args=None):
+        '    List all files and directories in the current working directory.'
         if args == 'file':
             if len(self.files) > 0:
                 for f in self.files:
@@ -266,6 +267,7 @@ class IncludeNavCmd(IncludeDiagCmd):
         Implements the Nav_Menu UI.
     '''
     def do_chdir(self, args=None):
+        '    Change the current working directory.'
         #Get a current list of directories.
         D.get_new_list(ignore_files=True)
         
@@ -281,6 +283,7 @@ class IncludeNavCmd(IncludeDiagCmd):
             zip archives.
     '''
     def do_addfolder(self, args=None):
+        '    Add a folder and all files and folders in it to the list of files to write to a zip archive.'
         D.get_new_list(ignore_files=True, ignore=self.folders)
         pane = Nav_Menu.OptionPane(D._keyed_dirs)
         print('Select a folder from the current directory:')
@@ -295,6 +298,7 @@ class IncludeNavCmd(IncludeDiagCmd):
                         self.files.append(os.path.join(root, f))
                 
     def do_addfile(self, args=None):
+        '    Add a single file to the list of files to write to a zip archive.'
         #Get a current list of files, excluding the files that have already been added to the list.
         D.get_new_list(ignore_dirs=True, ignore=self.files)
         pane = Nav_Menu.OptionPane(D._keyed_dirs)
@@ -311,6 +315,7 @@ class IncludeNavCmd(IncludeDiagCmd):
                 print('    File', isfile, 'was already in the list.') 
                 
     def do_remv(self, args=None):
+        '    Remove a file or directory of files from the list of files to write to a zip archive.'
         has_folders = False 
         has_files = False
         
@@ -365,11 +370,12 @@ class IncludeNavCmd(IncludeDiagCmd):
         Put the contents of the list of files into a zip archive.
     '''
     def do_zip(self, args=None):
+        '    Take all files contained in the list and write them into a zip archive, retaining directory structures.'
         project_title = input('    What would you like to name the archive?\n[> ').strip()
         #Create a Zipper.
         z = Zipper()
         main_file = None
-        nom_main_file = input('Would you like to nominate a file as the __main__ file? (Y/N)\n[> ').strip()
+        nom_main_file = input('Would you like to nominate a file as the __main__ file? (Y/N)\n[>  ').strip()
         if nom_main_file.lower() == 'n' or nom_main_file == '':
             print('Continuing...')
         elif nom_main_file.lower() == 'y':
@@ -393,13 +399,14 @@ class UtilityCmd(IncludeNavCmd):
     def __init__(self):
         super(UtilityCmd, self).__init__()
         #Change the prompt string to '[>  '.
-        self.prompt = '[> '
+        self.prompt = '[>  '
     
     def preloop(self):
         #Print a welcome message before starting the command loop.
-        print('Welcome to Utility Commander V_00 (3/26/2015)')
+        print('Welcome to Utility Commander V_01 (3/26/2015)')
     
     def do_kill(self, args=None):
+        '    script is kill'
         print('\n\'script is kill\'')
         print('\'no\'')
         quit()

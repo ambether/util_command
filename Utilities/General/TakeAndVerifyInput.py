@@ -29,7 +29,6 @@ def GetAndCheckFilePython():
     while verified is False:
         filepath = input("path: ")
         filepath = str(filepath).strip('\r')
-        print(filepath + ' <<<')
         absFilepath = os.path.abspath(filepath)
         absDir = os.path.dirname(absFilepath)
         
@@ -40,7 +39,6 @@ def GetAndCheckFilePython():
         
         if(os.path.isdir(absDir)):
             if(os.path.isfile(absFilepath)):
-                print("found it.\n")
                 fileExtension = re.search('(.+?)(\.py)', filename)
                 if(fileExtension):
                     verified = True
@@ -61,7 +59,6 @@ def CheckPyFile(filepath=''):
     
     if(os.path.isdir(absDir)):
         if(os.path.isfile(absFilepath)):
-            #print('Found it.\n')
             fileExtension = re.search('(.+?)(\.py)', filename)
             if(fileExtension):
                 verified = True
@@ -122,7 +119,6 @@ def FileExists(input='', message=None):
     
     if(os.path.isdir(absDir)):
         if(os.path.isfile(absFilepath)):
-            #print('File exists.')
             verified = True
         else:
             print('File does not exist.')

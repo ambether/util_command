@@ -75,7 +75,7 @@ class Zipper:
                 'set /p args=<args.txt',
                 'set filename=' + self.zip_name,
                 'echo Executing %filename%!!',
-                'C:\\ISMPython\\V3_2\\Python ',
+                '%PYPATH% ',
                 '%filename%',
                 '%args%',
                 'pause'

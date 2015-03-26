@@ -98,8 +98,6 @@ class OptionBook(Book):
         #The number of options modded by 52 gives any leftover options.
         remaining_lines = len(options) % 52
         
-        print('Full pages:',no_of_full_pages, '\nRemaining lines:', remaining_lines)
-        
         #Create and append the full pages.
         while page_num < no_of_full_pages:
             #Iterate through options in slices of 52.
@@ -168,6 +166,7 @@ class BookViewer:
         while finished is False:
             back = False
             forward = False
+            print('Page', str(self.current_page+1),'/', str(len(self.book.pages))) 
             self.view()
             if self.has_page(self.current_page - 1):
                 print('|\t[' + '<,' + '] - ' + 'Go back a page')
