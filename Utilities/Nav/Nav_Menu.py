@@ -80,7 +80,12 @@ class OptionBook(Book):
         super(OptionBook, self).__init__()
         
     def add_option(self, page, key, value):
-        self.pages[page].add_key(key, value)
+        if len(self.pages) > 0:
+            self.pages[page].add_key(key, value)
+        else:
+            p = OptionPage(0)
+            self.add_page(p)
+            self.pages[0].add_key(key, value)
     
     #Create a book by taking a dictionary, cutting it up into as many equal
     #   parts of 52 it can, and then create a page for each equal group and the leftover.
